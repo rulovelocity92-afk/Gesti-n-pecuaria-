@@ -49,14 +49,43 @@ function weightForm(){modal('Nuevo pesaje',`<form onsubmit="event.preventDefault
 function reproForm(){let f=data.animals.filter(x=>x.sex=='Hembra'),m=data.animals.filter(x=>x.sex=='Macho');if(!f.length||!m.length)return alert('Registra una hembra y un macho.');modal('Registrar servicio',`<form onsubmit="event.preventDefault();add('reproduction',{female_id:f.value,male_id:m.value,service_date:dt.value,diagnosis:g.value,expected_birth_date:pd.value||null,offspring_count:+c.value||0,notes:no.value})"><label>Hembra</label><select id=f>${opts(f)}</select><label>Macho</label><select id=m>${opts(m)}</select><label>Fecha servicio</label><input id=dt type=date value="${today()}"><label>Diagnóstico</label><select id=g><option>Pendiente</option><option>Gestante</option><option>No gestante</option></select><label>Parto probable</label><input id=pd type=date><label>Crías</label><input id=c type=number min=0><label>Notas</label><textarea id=no></textarea><button>Guardar</button></form>`)}
 function criaForm(){let f=data.animals.filter(x=>x.sex=='Hembra'),m=data.animals.filter(x=>x.sex=='Macho');if(!f.length||!m.length)return alert('Registra madre y padre.');modal('Registrar cría',`<form onsubmit="event.preventDefault();add('offspring',{ear_tag:a.value,sex:s.value,birth_date:d.value,birth_weight_kg:+w.value,mother_id:f.value,father_id:m.value})"><label>Arete*</label><input id=a required><label>Sexo</label><select id=s><option>Hembra</option><option>Macho</option></select><label>Fecha nacimiento</label><input id=d type=date value="${today()}"><label>Peso nacimiento kg</label><input id=w type=number step=.01 required><label>Madre</label><select id=f>${opts(f)}</select><label>Padre</label><select id=m>${opts(m)}</select><button>Guardar</button></form>`)}
 function feedForm(){modal('Registrar alimentación',`<form onsubmit="event.preventDefault();add('feed_records',{record_date:d.value,feed_type:t.value,quantity_kg:+q.value,price_per_kg:+p.value||0,notes:n.value})"><label>Fecha</label><input id=d type=date value="${today()}"><label>Alimento</label><input id=t required><label>Cantidad kg</label><input id=q type=number step=.01 required><label>Precio/kg</label><input id=p type=number step=.01><label>Notas</label><input id=n><button>Guardar</button></form>`)}
-function vetForm(){modal('Registro veterinario',`<form onsubmit="event.preventDefault();add('veterinary',{animal_id:a.value,record_date:d.value,record_type:t.value,medication:m.value,dose:o.value,administration_route:v.value,next_date,note:n.value,cost:+c.value||0})"><label>Animal</label><select id=a>${opts(data.animals)}</select><label>Fecha</label><input id=d type=date value="${today()}"><label>Tipo</label><select id=t><option>Vacuna</option><option>Desparasitación</option><option>Enfermedad</option><option>Tratamiento</option></select><label>Medicamento</label><input id=m><label>Dosis</label><input id=o><label>Vía</label><input id=v><label>Costo</label><input id=c type=number step=.01><label>Notas</label><input id=n><button>Guardar</button></form>`)}
+function vetForm(){modal('Registro veterinario',`<form onsubmit="event.preventDefault();add('veterinary',{animal_id:a.value,record_date:d.value,record_type:t.value,medication:m.value,dose:o.value,administration_route:v.value,next_date:null,notes:n.value,cost:+c.value||0})"><label>Animal</label><select id=a>${opts(data.animals)}</select><label>Fecha</label><input id=d type=date value="${today()}"><label>Tipo</label><select id=t><option>Vacuna</option><option>Desparasitación</option><option>Enfermedad</option><option>Tratamiento</option></select><label>Medicamento</label><input id=m><label>Dosis</label><input id=o><label>Vía</label><input id=v><label>Costo</label><input id=c type=number step=.01><label>Notas</label><input id=n><button>Guardar</button></form>`)}
 function incomeForm(){modal('Ingreso',`<form onsubmit="event.preventDefault();add('money_movements',{movement_date:d.value,movement_type:'Ingreso',category:c.value,amount:+a.value,cost_type:null,description:n.value})"><label>Fecha</label><input id=d type=date value="${today()}"><label>Categoría</label><input id=c required><label>Monto</label><input id=a type=number step=.01 required><label>Notas</label><input id=n><button>Guardar</button></form>`)}
 function expenseForm(){modal('Gasto',`<form onsubmit="event.preventDefault();add('money_movements',{movement_date:d.value,movement_type:'Gasto',category:c.value,amount:+a.value,cost_type:t.value,description:n.value})"><label>Fecha</label><input id=d type=date value="${today()}"><label>Categoría</label><input id=c required><label>Tipo</label><select id=t><option>Fijo</option><option>Variable</option></select><label>Monto</label><input id=a type=number step=.01 required><label>Notas</label><input id=n><button>Guardar</button></form>`)}
 function saleForm(){let a=data.animals.filter(x=>x.status=='Activo');if(!a.length)return alert('No hay animales activos.');modal('Venta',`<form onsubmit="event.preventDefault();add('sales',{animal_id:an.value,sale_date:d.value,weight_kg:+w.value,price_per_kg:+p.value,buyer:b.value,notes:n.value})"><label>Animal</label><select id=an>${opts(a)}</select><label>Fecha</label><input id=d type=date value="${today()}"><label>Peso kg</label><input id=w type=number step=.01 required><label>Precio/kg</label><input id=p type=number step=.01 required><label>Comprador</label><input id=b><label>Notas</label><input id=n><button>Guardar</button></form>`)}
 function detail(id){let a=data.animals.find(x=>x.id==id),w=data.weights.filter(x=>x.animal_id==id);modal('Ficha '+a.ear_tag,`<p><b>${a.name||''}</b> · ${a.sex} · ${a.breed||'-'}</p><p>Peso inicial: ${a.initial_weight||0} kg · Compra: ${money(a.purchase_price)}</p><h3>Pesajes</h3>${w.map(x=>`<p>${x.weight_date}: <b>${x.weight_kg} kg</b></p>`).join('')||'Sin pesajes'}`)}
 function backup(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='gestion_pecuaria_respaldo.json';a.click()}
-async function enter(){let r=await S.auth.signInWithPassword({email:email.value,password:pass.value});if(r.error)msg.textContent=r.error.message;else{user=r.data.user;login.style.display='none';await load();render()}}
-async function register(){let r=await S.auth.signUp({email:email.value,password:pass.value});msg.textContent=r.error?r.error.message:'Cuenta creada. Revisa tu correo si Supabase solicita confirmación.'}
+const emailEl=()=>document.getElementById('email');
+const passEl=()=>document.getElementById('pass');
+const msgEl=()=>document.getElementById('msg');
+const loginEl=()=>document.getElementById('login');
+function showMsg(text,ok=false){const e=msgEl();e.textContent=text;e.style.color=ok?'#17452f':'#a62e28'}
+async function enter(){
+  try{
+    showMsg('Conectando…',true);
+    const email=emailEl().value.trim(), password=passEl().value;
+    if(!email||!password){showMsg('Escribe correo y contraseña.');return}
+    if(typeof supabase==='undefined'){showMsg('No se pudo cargar la conexión con Supabase. Recarga la página.');return}
+    const r=await S.auth.signInWithPassword({email,password});
+    if(r.error){showMsg(r.error.message);return}
+    user=r.data.user; loginEl().style.display='none';
+    if(await load()) render();
+  }catch(e){console.error(e);showMsg('Error al iniciar sesión: '+(e.message||e))}
+}
+async function register(){
+  try{
+    const email=emailEl().value.trim(), password=passEl().value;
+    if(!email||!password){showMsg('Escribe correo y contraseña.');return}
+    if(password.length<6){showMsg('La contraseña debe tener al menos 6 caracteres.');return}
+    if(typeof supabase==='undefined'){showMsg('No se pudo cargar Supabase. Recarga la página.');return}
+    showMsg('Creando cuenta…',true);
+    const r=await S.auth.signUp({email,password});
+    if(r.error){showMsg(r.error.message);return}
+    if(r.data.session){user=r.data.user;loginEl().style.display='none';if(await load())render();}
+    else showMsg('Cuenta creada. Revisa tu correo para confirmar la cuenta y después inicia sesión.',true);
+  }catch(e){console.error(e);showMsg('Error al crear cuenta: '+(e.message||e))}
+}
 async function logout(){await S.auth.signOut();location.reload()}
-(async()=>{let r=await S.auth.getUser();if(r.data.user){user=r.data.user;login.style.display='none';if(await load())render()}})();
+S.auth.onAuthStateChange(async (_event,session)=>{if(session?.user&&!user){user=session.user;loginEl().style.display='none';if(await load())render()}});
+(async()=>{try{if(typeof supabase==='undefined'){showMsg('No se cargó Supabase. Revisa tu conexión a internet y recarga.');return}const r=await S.auth.getUser();if(r.data.user){user=r.data.user;loginEl().style.display='none';if(await load())render()}}catch(e){console.error(e);showMsg('No se pudo conectar con Supabase: '+(e.message||e))}})();
 </script></body></html>
