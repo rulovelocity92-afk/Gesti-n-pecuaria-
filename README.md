@@ -1,2 +1,2 @@
-# Gesti-n-pecuaria-
-Sistema de gestión pecuaria 
+# Gestión Pecuaria
+Aplicación web móvil conectada a Supabase.

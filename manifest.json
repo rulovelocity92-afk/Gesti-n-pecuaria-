@@ -1,0 +1,8 @@
+{
+  "name": "Gesti\u00f3n Pecuaria",
+  "short_name": "Pecuaria",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#17452f",
+  "background_color": "#f3f6f3"
+}
